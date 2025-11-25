@@ -59,7 +59,6 @@ public class WebSecurityConfig {
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/schedulers").permitAll()
                         .requestMatchers("/api/login").permitAll()
-                        .requestMatchers("/api/social-media-connections/linkedin").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/docs/**").permitAll()
