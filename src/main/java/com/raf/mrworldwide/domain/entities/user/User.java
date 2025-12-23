@@ -48,6 +48,8 @@ public class User extends BaseEntityUUID {
     @Transient
     private String accessToken;
 
+    private Boolean isGuest;
+
     @JsonIgnore
     @Override
     public final boolean equals(Object o) {
