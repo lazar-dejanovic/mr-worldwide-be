@@ -1,13 +1,12 @@
-package com.raf.mrworldwide.domain.entities.plan;
+package com.raf.mrworldwide.domain.entities.plan.transportation;
 
 import com.raf.mrworldwide.domain.entities.BaseEntityUUID;
-import com.raf.mrworldwide.domain.entities.plan.transportation.TransportType;
+import com.raf.mrworldwide.domain.entities.plan.itinerary.DailyItinerary;
+import com.raf.mrworldwide.domain.entities.plan.Destination;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,29 +15,16 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "\"destionations\"")
-public class Destination extends BaseEntityUUID {
+@Table(name = "\"car_own_trips\"")
+public class CarOwnTrip extends BaseEntityUUID {
 
-    private String cityName;
-    private String cityCode; // TODO I would create here an enum for all the cities of sacred IATA codes, or maybe a table and then cash
+    @OneToOne
+    @JoinColumn(name = "destination_id")
+    private Destination destination;
 
-    private LocalDate arrivalDate;
-    private LocalDate departureDate;
-
-    private Integer orderIndex;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "travel_plan_id")
-    private TravelPlan travelPlan;
-
-    @Enumerated(EnumType.STRING)
-    private TransportType transportType;
-
-    private Double latitude;
-    private Double longitude;
-
-    @ElementCollection
-    private List<String> localInterest;
+    private Double distanceKm;
+    private Double estimatedFuelCost;
+    private Double tollCost;
 
     @Override
     public final boolean equals(Object o) {
@@ -47,7 +33,7 @@ public class Destination extends BaseEntityUUID {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Destination that = (Destination) o;
+        DailyItinerary that = (DailyItinerary) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 
