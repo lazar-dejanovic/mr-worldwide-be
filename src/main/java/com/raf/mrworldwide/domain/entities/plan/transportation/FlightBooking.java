@@ -1,6 +1,7 @@
-package com.raf.mrworldwide.domain.entities.plan;
+package com.raf.mrworldwide.domain.entities.plan.transportation;
 
 import com.raf.mrworldwide.domain.entities.BaseEntityUUID;
+import com.raf.mrworldwide.domain.entities.plan.Destination;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;

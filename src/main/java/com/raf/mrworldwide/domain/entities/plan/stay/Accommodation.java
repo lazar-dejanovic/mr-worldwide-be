@@ -1,6 +1,7 @@
-package com.raf.mrworldwide.domain.entities.plan;
+package com.raf.mrworldwide.domain.entities.plan.stay;
 
 import com.raf.mrworldwide.domain.entities.BaseEntityUUID;
+import com.raf.mrworldwide.domain.entities.plan.Destination;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
