@@ -2,6 +2,7 @@ package com.raf.mrworldwide.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.raf.mrworldwide.security.AuthenticationFilter;
+import com.raf.mrworldwide.services.ums.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import org.springframework.web.filter.CorsFilter;
 public class WebSecurityConfig {
 
     private final ObjectMapper objectMapper;
+    private final AuthService authService;
 
     @Bean
     public CorsFilter corsFilter() {
@@ -58,16 +60,19 @@ public class WebSecurityConfig {
                         .requestMatchers("/ws").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/schedulers").permitAll()
-                        .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/docs/**").permitAll()
                         .requestMatchers("/test/**").permitAll()
+                        .requestMatchers("/api/users/login").permitAll()
+                        .requestMatchers("/api/users/register").permitAll()
+                        .requestMatchers("/api/users/forgot-password").permitAll()
+                        .requestMatchers("/api/users/reset-password").permitAll()
                         .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(new AuthenticationFilter(objectMapper), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationFilter(objectMapper, authService), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return httpSecurity.build();

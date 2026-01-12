@@ -10,6 +10,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -34,5 +36,13 @@ public abstract class BaseEntityAudit implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "updated_on")
     private ZonedDateTime updatedOn;
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column(name = "last_modified_by")
+    private String lastModifiedBy;
 
 }

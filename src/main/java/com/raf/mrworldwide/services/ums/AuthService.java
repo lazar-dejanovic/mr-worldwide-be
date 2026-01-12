@@ -3,7 +3,6 @@ package com.raf.mrworldwide.services.ums;
 import com.raf.mrworldwide.dao.repositories.UserRepository;
 import com.raf.mrworldwide.domain.dto.user.UserDto;
 import com.raf.mrworldwide.domain.entities.user.User;
-import com.raf.mrworldwide.domain.entities.user.UserType;
 import com.raf.mrworldwide.domain.mappers.UserMapper;
 import com.raf.mrworldwide.exceptions.AuthorizationException;
 import com.raf.mrworldwide.exceptions.BadRequestException;
@@ -18,59 +17,38 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 @Service
 @Slf4j
 @AllArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class AuthService {
 
     private final UserRepository userRepository;
     private final TokenAuthenticationService tokenAuthenticationService;
     private final PasswordEncoder passwordEncoder;
 
-    public User login(String email, String password) {
+    public UserDto login(String email, String password) {
         log.info("Logging in, [{}]", email);
-        User user = userRepository.findByEmailIgnoreCase(email).orElseThrow(() -> userDoesNotExistException(email));
+        User user = getUserByEmail(email);
 
-        if (UserType.SYSTEM_ADMIN.equals(user.getUserType())) {
-            throw new BadRequestException("System user can't login to platform");
-        }
+        if (user.getDeleted()) throw new ForbiddenException("User is disabled!");
+        if (!passwordEncoder.matches(password, user.getPassword())) throw new BadRequestException("Incorrect password");
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadRequestException("Incorrect password");
-        }
         log.info("Logged in, [{}]", email);
-
-        user.setAccessToken(tokenAuthenticationService.generateToken(user));
-        return user;
-    }
-
-    public User systemAdminLogin(String email, String password) {
-        User user = userRepository.findByEmailIgnoreCase(email).orElseThrow(() -> userDoesNotExistException(email));
-
-        if (!UserType.SYSTEM_ADMIN.equals(user.getUserType())) {
-            throw new BadRequestException("Only system admin can login via this route");
-        }
-
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadRequestException("Incorrect password");
-        }
-        user.setAccessToken(tokenAuthenticationService.generateToken(user));
-        return user;
+        return UserMapper.INSTANCE.toDto(user, tokenAuthenticationService.generateToken(user));
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findByEmailIgnoreCase(email).orElseThrow(() -> userDoesNotExistException(email));
+        return userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new NotFoundException("User with email " + email + " does not exist"));
     }
 
     public User getUserFromToken(String token) {
         String email = getEmailFromToken(token);
-        return userRepository.findByEmailIgnoreCase(email).orElseThrow(() -> userDoesNotExistException(email));
+        return getUserByEmail(email);
     }
 
-    public UserDto getUserDtoFromToken(String token, UUID companyId) {
+    public UserDto getUserDtoFromToken(String token) {
         User user = getUserFromToken(token);
         return UserMapper.INSTANCE.toDto(user);
     }
@@ -91,11 +69,6 @@ public class AuthService {
         } catch (Exception e) {
             throw new AuthorizationException(e.getMessage());
         }
-    }
-
-    private NotFoundException userDoesNotExistException(String email) {
-        String errorMessage = "User with email " + email + " does not exist";
-        return new NotFoundException(errorMessage);
     }
 
 }

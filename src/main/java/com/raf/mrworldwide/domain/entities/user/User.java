@@ -33,22 +33,13 @@ public class User extends BaseEntityUUID {
     @Column(nullable = false)
     private String lastName;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Builder.Default
-    private UserType userType = UserType.REGULAR_USER;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    private Role role;
 
     @Builder.Default
     @JsonIgnore
     private Boolean deleted = false;
 
-    @Transient
-    private String accessToken;
-
-    private Boolean isGuest;
 
     @JsonIgnore
     @Override
@@ -78,12 +69,6 @@ public class User extends BaseEntityUUID {
 
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (roles == null) {
-            return Collections.emptyList();
-        }
-
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .toList();
+        return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
     }
 }

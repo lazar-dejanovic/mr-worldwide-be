@@ -1,5 +1,6 @@
 package com.raf.mrworldwide.domain.mappers;
 
+import com.raf.mrworldwide.domain.dto.BaseEntityDto;
 import com.raf.mrworldwide.domain.dto.user.UserDto;
 import com.raf.mrworldwide.domain.entities.user.User;
 import org.mapstruct.*;

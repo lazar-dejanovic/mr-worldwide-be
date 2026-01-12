@@ -16,7 +16,7 @@ public class TokenAuthenticationService {
     static final long EXPIRATION_TIME = 30L * 24 * 60 * 60 * 1000; // 1 month
 
     // Secret used to sign tokens
-    static final String SECRET = "ThisIsASecretKey!";
+    static final String SECRET = "ThisIsAnExtremelyLongSecretValueExpandedOnlyToMeetTheMinimum512BitSigningKeyRequirementAndNothingMore!";
 
     // The http authentication header name
     public static final String TOKEN_PREFIX = "Bearer ";
@@ -24,7 +24,7 @@ public class TokenAuthenticationService {
     public String generateToken(User user) {
         return Jwts.builder()
                 .subject(user.getEmail())
-                // .claim("roles", user.getRoles())
+                .claim("role", user.getRole())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)

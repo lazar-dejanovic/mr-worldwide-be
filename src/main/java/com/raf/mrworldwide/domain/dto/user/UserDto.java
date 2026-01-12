@@ -2,48 +2,43 @@ package com.raf.mrworldwide.domain.dto.user;
 
 import com.raf.mrworldwide.domain.dto.BaseEntityDto;
 import com.raf.mrworldwide.domain.entities.user.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import jakarta.annotation.Nonnull;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@SuperBuilder
-public class UserDto extends BaseEntityDto {
+public record UserDto(
+        BaseEntityDto base,
+        String firstName,
+        String lastName,
+        String email,
+        Role role,
+        String accessToken
+) {
 
-    private String email;
-    private String firstName;
-    private String lastName;
-    private List<Role> roles;
-    private boolean deleted;
+    public UUID id() {
+        return base != null ? base.id() : null;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserDto that = (UserDto) o;
-        return id != null && Objects.equals(id, that.id);
+        if (!(o instanceof UserDto that)) return false;
+        return id() != null && Objects.equals(id(), that.id());
     }
 
     @Override
     public int hashCode() {
-        return id != null ? Objects.hashCode(id) : 0;
+        return id() != null ? Objects.hash(id()) : 0;
     }
 
     @Override
+    @Nonnull
     public String toString() {
         return "UserDto{" +
                 "email='" + email + '\'' +
-                ", roles=" + roles +
-                ", id=" + id +
-                ", deleted=" + deleted +
+                ", role=" + role +
+                ", id=" + id() +
                 '}';
     }
 
