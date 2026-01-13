@@ -1,6 +1,6 @@
 package com.raf.mrworldwide.dao.repositories;
 
-import com.raf.mrworldwide.domain.entities.plan.itinerary.DailyItinerary;
+import com.raf.mrworldwide.domain.entities.trip.DailyItinerary;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

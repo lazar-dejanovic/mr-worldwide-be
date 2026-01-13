@@ -1,11 +1,11 @@
-package com.raf.mrworldwide.domain.entities.plan.itinerary;
+package com.raf.mrworldwide.domain.entities.trip;
 
 import com.raf.mrworldwide.domain.entities.BaseEntityUUID;
-import com.raf.mrworldwide.domain.entities.plan.Destination;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -15,24 +15,24 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "\"daily_itineraries\"")
+@Table(name = "daily_itinerary")
 public class DailyItinerary extends BaseEntityUUID {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destination_id")
-    private Destination destination;
-
-    private String fsqPlaceId;
     private String name;
-    private String categoryName;
+    private String category;
     private String categoryIconUrl;
 
-    private String formattedAddress;
+    private String address;
     private Double latitude;
     private Double longitude;
 
+    private LocalDate day;
     private LocalTime startTime;
     private LocalTime endTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_segment_id")
+    private TripSegment tripSegment;
 
     @Override
     public final boolean equals(Object o) {

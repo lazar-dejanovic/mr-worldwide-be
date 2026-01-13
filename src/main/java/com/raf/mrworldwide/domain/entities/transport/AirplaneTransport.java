@@ -1,11 +1,13 @@
-package com.raf.mrworldwide.domain.entities.ai;
+package com.raf.mrworldwide.domain.entities.transport;
 
 import com.raf.mrworldwide.domain.entities.BaseEntityUUID;
-import com.raf.mrworldwide.domain.entities.plan.TravelPlan;
-import jakarta.persistence.*;
+import com.raf.mrworldwide.domain.entities.trip.TripSegment;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -14,18 +16,17 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "\"ai_interactions\"")
-public class AIInteraction extends BaseEntityUUID {
+@Table(name = "airplane_transport")
+public class AirplaneTransport extends BaseEntityUUID {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "travel_plan_id")
-    private TravelPlan travelPlan;
+    private String flightNumber;
 
-    @Column(columnDefinition = "TEXT")
-    private String message;
+    private LocalDateTime departureTime;
+    private LocalDateTime arrivalTime;
 
-    @Enumerated(EnumType.STRING)
-    private SenderType senderType;
+    private String duration;
+    private Double price;
+    private String currency;
 
     @Override
     public final boolean equals(Object o) {
@@ -34,7 +35,7 @@ public class AIInteraction extends BaseEntityUUID {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        AIInteraction that = (AIInteraction) o;
+        TripSegment that = (TripSegment) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 

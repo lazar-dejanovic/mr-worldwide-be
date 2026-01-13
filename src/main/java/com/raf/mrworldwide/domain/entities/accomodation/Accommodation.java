@@ -1,15 +1,12 @@
-package com.raf.mrworldwide.domain.entities.plan.transportation;
+package com.raf.mrworldwide.domain.entities.accomodation;
 
 import com.raf.mrworldwide.domain.entities.BaseEntityUUID;
-import com.raf.mrworldwide.domain.entities.plan.Destination;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.raf.mrworldwide.domain.entities.trip.TripSegment;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -18,22 +15,20 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "\"flight_bookings\"")
-public class FlightBooking extends BaseEntityUUID {
+@Table(name = "accommodation")
+public class Accommodation extends BaseEntityUUID {
 
-    @OneToOne
-    @JoinColumn(name = "destination_id")
-    private Destination destination;
+    private String name;
+    private String address;
+    private String imageUrl;
+    private String bookingUrl;
 
-    private String amadeusId;
-    private String carrierCode;
-    private String flightNumber;
+    private Double starRating;
+    private Double reviewScore;
 
-    private LocalDateTime departureTime;
-    private LocalDateTime arrivalTime;
-
-    private String duration;
-    private Double price;
+    private LocalDate checkIn;
+    private LocalDate checkOut;
+    private Double priceTotal;
     private String currency;
 
     @Override
@@ -43,7 +38,7 @@ public class FlightBooking extends BaseEntityUUID {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Destination that = (Destination) o;
+        TripSegment that = (TripSegment) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 
@@ -51,4 +46,5 @@ public class FlightBooking extends BaseEntityUUID {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
 }

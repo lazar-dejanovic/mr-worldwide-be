@@ -40,6 +40,9 @@ public class User extends BaseEntityUUID {
     @JsonIgnore
     private Boolean deleted = false;
 
+    @OneToOne
+    private UserTripPreference userTripPreference;
+
 
     @JsonIgnore
     @Override

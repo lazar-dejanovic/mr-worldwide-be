@@ -1,6 +1,6 @@
 package com.raf.mrworldwide.dao.repositories;
 
-import com.raf.mrworldwide.domain.entities.plan.stay.Accommodation;
+import com.raf.mrworldwide.domain.entities.accomodation.Accommodation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

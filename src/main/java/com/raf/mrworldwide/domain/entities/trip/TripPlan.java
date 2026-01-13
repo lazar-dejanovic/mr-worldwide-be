@@ -1,5 +1,6 @@
-package com.raf.mrworldwide.domain.entities.plan;
+package com.raf.mrworldwide.domain.entities.trip;
 
+import com.raf.mrworldwide.domain.converters.CsvConverter;
 import com.raf.mrworldwide.domain.entities.BaseEntityUUID;
 import com.raf.mrworldwide.domain.entities.user.User;
 import jakarta.persistence.*;
@@ -17,29 +18,34 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "\"travel_plans\"")
-public class TravelPlan extends BaseEntityUUID {
+@Table(name = "trip_plan")
+public class TripPlan extends BaseEntityUUID {
 
     private String name;
-    private String startingCity;
 
-    private Integer adults;
-    private Integer children;
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = CsvConverter.class)
+    private List<String> destinations;
 
     private LocalDate startDate;
     private LocalDate endDate;
 
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = CsvConverter.class)
+    private List<String> interests;
+
     @Enumerated(EnumType.STRING)
-    private TravelPlanStatus status;
+    private TripPlanStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tripPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
     @Builder.Default
-    private List<Destination> destinations = new ArrayList<>();
+    private List<TripSegment> tripSegments = new ArrayList<>();
+
 
     @Override
     public final boolean equals(Object o) {
@@ -48,7 +54,7 @@ public class TravelPlan extends BaseEntityUUID {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        TravelPlan that = (TravelPlan) o;
+        TripPlan that = (TripPlan) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 
@@ -63,6 +69,7 @@ public class TravelPlan extends BaseEntityUUID {
                 "name = " + name + ", " +
                 "startDate = " + startDate + ", " +
                 "endDate = " + endDate + ", " +
-                "startingCity = " + startingCity + ")";
+                "destinations = " + destinations + ")";
     }
+
 }
