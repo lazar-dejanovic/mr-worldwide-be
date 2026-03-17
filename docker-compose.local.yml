@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: mr-worldwide-postgres-local
+    environment:
+      POSTGRES_DB: mr-worldwide
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - mr-worldwide-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mr-worldwide"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: mr-worldwide-pgadmin-local
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mr-worldwide.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - mr-worldwide-pgadmin-data:/var/lib/pgadmin
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mr-worldwide-api-local
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mr-worldwide
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mr-worldwide-postgres-data:
+  mr-worldwide-pgadmin-data:
