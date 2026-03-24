@@ -2,6 +2,7 @@ package com.raf.mrworldwide.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,12 +13,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 @SuperBuilder(toBuilder = true)
 @Getter
 @Setter

@@ -45,6 +45,8 @@ public class AuthenticationFilter extends GenericFilterBean {
         this.requestMatcher = new OrRequestMatcher(
                 // OPTIONS should be ignored
                 builder.matcher(HttpMethod.OPTIONS, "/**"),
+				// allow Tomcat's error-dispatch through without auth
+				builder.matcher("/error"),
                 builder.matcher("/api/users/login"),
                 builder.matcher("/api/users/register"),
                 builder.matcher("/api/users/forgot-password"),
