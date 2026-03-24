@@ -1,3 +1,4 @@
+@trip-plan
 Feature: Trip plan management
 
   Background:

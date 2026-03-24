@@ -185,4 +185,9 @@ tasks.register('integrationTest', Test) {
     setMaxHeapSize("4g")
 
     useJUnitPlatform()
+
+    // Forward tag filter from the CLI: ./gradlew integrationTest -Dcucumber.filter.tags="@user"
+    if (System.getProperty('cucumber.filter.tags')) {
+        systemProperty 'cucumber.filter.tags', System.getProperty('cucumber.filter.tags')
+    }
 }

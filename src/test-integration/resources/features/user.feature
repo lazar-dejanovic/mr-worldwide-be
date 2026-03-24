@@ -1,3 +1,4 @@
+@user
 Feature: User management
 
   Scenario: Register a new user
