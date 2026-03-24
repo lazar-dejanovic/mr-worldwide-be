@@ -13,6 +13,7 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
+    @Mapping(target = "base", source = "user")
     UserDto toDto(User user);
 
     @Mapping(target = "base", source = "user")

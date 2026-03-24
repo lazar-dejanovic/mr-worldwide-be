@@ -49,3 +49,5 @@ services:
 volumes:
   mr-worldwide-postgres-data:
   mr-worldwide-pgadmin-data:
+
+# docker compose -f docker-compose.local.yml up

@@ -44,18 +44,27 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable UUID id, @RequestBody @Valid UserUpdateRequest updateRequest) {
-        return null;
+    public ResponseEntity<UserDto> update(@PathVariable UUID id,
+                                           @RequestBody @Valid UserUpdateRequest updateRequest) {
+        return ResponseEntity.ok(userService.update(id, updateRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        userService.softDelete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = "/forgot-password", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void forgotPassword(@RequestParam String email) {
-        // TODO - implement forgot password
+    public ResponseEntity<Void> forgotPassword(@RequestParam String email) {
+        // TODO — Phase 2: implement forgot password email flow
+        return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/reset-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void confirmPasswordReset(@RequestBody @Valid ResetPasswordRequest request) {
-        // TODO - implement reset password
+    @PostMapping(value = "/reset-password", produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> confirmPasswordReset(@RequestBody @Valid ResetPasswordRequest request) {
+        // TODO — Phase 2: implement reset password token validation
+        return ResponseEntity.noContent().build();
     }
-
 }

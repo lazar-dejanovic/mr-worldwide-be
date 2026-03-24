@@ -9,6 +9,8 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,9 +34,12 @@ public class TripSegment extends BaseEntityUUID {
     @JoinColumn(name = "trip_plan_id")
     private TripPlan tripPlan;
 
+    @OneToMany(mappedBy = "tripSegment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<DailyItinerary> dailyItineraries = new ArrayList<>();
+
     @OneToOne
     private Transport transport;
-
     @OneToOne
     private Accommodation accommodation;
 

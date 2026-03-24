@@ -31,6 +31,9 @@ public class Accommodation extends BaseEntityUUID {
     private Double priceTotal;
     private String currency;
 
+    @OneToOne(mappedBy = "accommodation")
+    private TripSegment tripSegment;
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
