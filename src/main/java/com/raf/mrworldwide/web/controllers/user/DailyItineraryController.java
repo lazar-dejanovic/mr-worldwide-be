@@ -3,7 +3,7 @@ package com.raf.mrworldwide.web.controllers.user;
 import com.raf.mrworldwide.domain.dto.trip.DailyItineraryDto;
 import com.raf.mrworldwide.domain.dto.trip.DailyItineraryRequest;
 import com.raf.mrworldwide.domain.entities.trip.TripSegment;
-import com.raf.mrworldwide.clients.FoursquareClient;
+import com.raf.mrworldwide.services.clients.FoursquareClient;
 import com.raf.mrworldwide.services.trip.DailyItineraryService;
 import com.raf.mrworldwide.services.trip.TripSegmentService;
 import lombok.RequiredArgsConstructor;

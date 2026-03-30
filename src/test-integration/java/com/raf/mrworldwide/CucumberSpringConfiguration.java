@@ -1,8 +1,8 @@
 package com.raf.mrworldwide;
 
-import com.raf.mrworldwide.clients.AmadeusClient;
-import com.raf.mrworldwide.clients.FoursquareClient;
-import com.raf.mrworldwide.clients.StayApiClient;
+import com.raf.mrworldwide.services.clients.AmadeusClient;
+import com.raf.mrworldwide.services.clients.FoursquareClient;
+import com.raf.mrworldwide.services.clients.StayApiClient;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;

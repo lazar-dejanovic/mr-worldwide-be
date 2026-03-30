@@ -1,4 +1,4 @@
-package com.raf.mrworldwide.clients;
+package com.raf.mrworldwide.services.clients;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

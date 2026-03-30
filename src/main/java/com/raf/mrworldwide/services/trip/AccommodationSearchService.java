@@ -1,6 +1,6 @@
 package com.raf.mrworldwide.services.trip;
 
-import com.raf.mrworldwide.clients.StayApiClient;
+import com.raf.mrworldwide.services.clients.StayApiClient;
 import com.raf.mrworldwide.domain.dto.accomodation.AccommodationOfferDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.raf.mrworldwide.services.trip;
 
-import com.raf.mrworldwide.clients.AmadeusClient;
+import com.raf.mrworldwide.services.clients.AmadeusClient;
 import com.raf.mrworldwide.domain.dto.trip.FlightOfferDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
