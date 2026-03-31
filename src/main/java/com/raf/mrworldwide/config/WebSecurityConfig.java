@@ -2,6 +2,7 @@ package com.raf.mrworldwide.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.raf.mrworldwide.security.AuthenticationFilter;
+import com.raf.mrworldwide.security.RateLimitFilter;
 import com.raf.mrworldwide.services.ums.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -73,6 +74,7 @@ public class WebSecurityConfig {
                 )
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(new RateLimitFilter(objectMapper), AuthenticationFilter.class)
                 .addFilterBefore(new AuthenticationFilter(objectMapper, authService), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
