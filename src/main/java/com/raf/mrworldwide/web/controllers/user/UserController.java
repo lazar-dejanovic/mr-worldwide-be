@@ -6,6 +6,7 @@ import com.raf.mrworldwide.domain.dto.user.UserUpdateRequest;
 import com.raf.mrworldwide.security.UserLoginRequest;
 import com.raf.mrworldwide.security.UserRegisterRequest;
 import com.raf.mrworldwide.services.ums.AuthService;
+import com.raf.mrworldwide.services.ums.ResetPasswordService;
 import com.raf.mrworldwide.services.ums.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final ResetPasswordService resetPasswordService;
 
     @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> me(@RequestHeader("Authorization") String token) {
@@ -57,14 +59,13 @@ public class UserController {
 
     @PostMapping(value = "/forgot-password", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> forgotPassword(@RequestParam String email) {
-        // TODO — Phase 2: implement forgot password email flow
-        return ResponseEntity.noContent().build();
+        resetPasswordService.forgotPassword(email);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/reset-password", produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/reset-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> confirmPasswordReset(@RequestBody @Valid ResetPasswordRequest request) {
-        // TODO — Phase 2: implement reset password token validation
-        return ResponseEntity.noContent().build();
+        resetPasswordService.resetPassword(request);
+        return ResponseEntity.ok().build();
     }
 }

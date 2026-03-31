@@ -51,18 +51,18 @@ public class DataSeeder implements ApplicationRunner {
 
         log.info("Seeding database with demo data...");
 
-        User alice = createUser("alice@example.com", "Alice", "Wanderer",
+        User user1 = createUser("lazzar99@gmail.com", "Lazar", "Dejanovic",
                 List.of("Culture", "History", "Food"),
                 List.of("Photography", "Hiking"),
                 List.of("Paris", "Rome", "Tokyo"));
 
-        User bob = createUser("bob@example.com", "Bob", "Explorer",
+        User user2 = createUser("ooggii05@gmail.com", "Ognjen", "Dejanovic",
                 List.of("Adventure", "Nature", "Sports"),
                 List.of("Skiing", "Surfing"),
                 List.of("Oslo", "Bangkok", "New York"));
 
-        seedAliceTrips(alice);
-        seedBobTrips(bob);
+        seedUser1Trips(user1);
+        seedUser2Trips(user2);
 
         log.info("Seed data loaded successfully.");
     }
@@ -102,23 +102,19 @@ public class DataSeeder implements ApplicationRunner {
         SecurityContextHolder.clearContext();
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    //  Alice — three trips
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    private void seedAliceTrips(User alice) {
-        authenticateAs(alice);
+    private void seedUser1Trips(User user) {
+        authenticateAs(user);
         try {
-            seedEuropeanHighlights(alice);
-            seedBalkanRoadTrip(alice);
-            seedJapanExplorer(alice);
+            seedEuropeanHighlights(user);
+            seedBalkanRoadTrip(user);
+            seedJapanExplorer(user);
         } finally {
             clearAuth();
         }
     }
 
     /** Trip 1 — European Highlights: NYC → Paris → Rome → Barcelona */
-    private void seedEuropeanHighlights(User alice) {
+    private void seedEuropeanHighlights(User user) {
         TripPlan plan = tripPlanRepository.save(TripPlan.builder()
                 .name("European Highlights")
                 .destinations(List.of("Paris", "Rome", "Barcelona"))
@@ -126,7 +122,7 @@ public class DataSeeder implements ApplicationRunner {
                 .startDate(LocalDate.of(2026, 6, 1))
                 .endDate(LocalDate.of(2026, 6, 22))
                 .status(TripPlanStatus.PLANNED)
-                .user(alice)
+                .user(user)
                 .build());
 
         // ── Segment 1: NYC → Paris ──────────────────────────────────────────
@@ -284,7 +280,7 @@ public class DataSeeder implements ApplicationRunner {
     }
 
     /** Trip 2 — Balkan Road Trip: Belgrade → Dubrovnik → Kotor */
-    private void seedBalkanRoadTrip(User alice) {
+    private void seedBalkanRoadTrip(User user) {
         TripPlan plan = tripPlanRepository.save(TripPlan.builder()
                 .name("Balkan Road Trip")
                 .destinations(List.of("Dubrovnik", "Kotor", "Mostar"))
@@ -292,7 +288,7 @@ public class DataSeeder implements ApplicationRunner {
                 .startDate(LocalDate.of(2026, 8, 5))
                 .endDate(LocalDate.of(2026, 8, 20))
                 .status(TripPlanStatus.DRAFT)
-                .user(alice)
+                .user(user)
                 .build());
 
         // ── Segment 1: Belgrade → Dubrovnik ────────────────────────────────
@@ -441,7 +437,7 @@ public class DataSeeder implements ApplicationRunner {
     }
 
     /** Trip 3 — Japan Explorer: Tokyo → Kyoto → Osaka */
-    private void seedJapanExplorer(User alice) {
+    private void seedJapanExplorer(User user) {
         TripPlan plan = tripPlanRepository.save(TripPlan.builder()
                 .name("Japan Explorer")
                 .destinations(List.of("Tokyo", "Kyoto", "Osaka"))
@@ -449,7 +445,7 @@ public class DataSeeder implements ApplicationRunner {
                 .startDate(LocalDate.of(2026, 10, 10))
                 .endDate(LocalDate.of(2026, 10, 31))
                 .status(TripPlanStatus.PLANNED)
-                .user(alice)
+                .user(user)
                 .build());
 
         // ── Segment 1: London → Tokyo (flight) ────────────────────────────
@@ -586,23 +582,19 @@ public class DataSeeder implements ApplicationRunner {
         ));
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    //  Bob — three trips
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    private void seedBobTrips(User bob) {
-        authenticateAs(bob);
+    private void seedUser2Trips(User user) {
+        authenticateAs(user);
         try {
-            seedNordicAdventure(bob);
-            seedSoutheastAsia(bob);
-            seedAmericanRoadTrip(bob);
+            seedNordicAdventure(user);
+            seedSoutheastAsia(user);
+            seedAmericanRoadTrip(user);
         } finally {
             clearAuth();
         }
     }
 
     /** Trip 4 — Nordic Adventure: Oslo → Bergen → Stockholm */
-    private void seedNordicAdventure(User bob) {
+    private void seedNordicAdventure(User user) {
         TripPlan plan = tripPlanRepository.save(TripPlan.builder()
                 .name("Nordic Adventure")
                 .destinations(List.of("Oslo", "Bergen", "Stockholm"))
@@ -610,7 +602,7 @@ public class DataSeeder implements ApplicationRunner {
                 .startDate(LocalDate.of(2026, 7, 5))
                 .endDate(LocalDate.of(2026, 7, 26))
                 .status(TripPlanStatus.PLANNED)
-                .user(bob)
+                .user(user)
                 .build());
 
         // ── Segment 1: London → Oslo (flight) ──────────────────────────────
@@ -758,7 +750,7 @@ public class DataSeeder implements ApplicationRunner {
     }
 
     /** Trip 5 — Southeast Asia: Bangkok → Bali → Singapore */
-    private void seedSoutheastAsia(User bob) {
+    private void seedSoutheastAsia(User user) {
         TripPlan plan = tripPlanRepository.save(TripPlan.builder()
                 .name("Southeast Asia Escape")
                 .destinations(List.of("Bangkok", "Bali", "Singapore"))
@@ -766,7 +758,7 @@ public class DataSeeder implements ApplicationRunner {
                 .startDate(LocalDate.of(2026, 11, 1))
                 .endDate(LocalDate.of(2026, 11, 22))
                 .status(TripPlanStatus.BOOKED)
-                .user(bob)
+                .user(user)
                 .build());
 
         // ── Segment 1: London → Bangkok (flight) ───────────────────────────
@@ -924,7 +916,7 @@ public class DataSeeder implements ApplicationRunner {
     }
 
     /** Trip 6 — American Road Trip: New York → Chicago → Los Angeles */
-    private void seedAmericanRoadTrip(User bob) {
+    private void seedAmericanRoadTrip(User user) {
         TripPlan plan = tripPlanRepository.save(TripPlan.builder()
                 .name("American Road Trip")
                 .destinations(List.of("New York", "Chicago", "Los Angeles"))
@@ -932,7 +924,7 @@ public class DataSeeder implements ApplicationRunner {
                 .startDate(LocalDate.of(2027, 4, 10))
                 .endDate(LocalDate.of(2027, 5, 1))
                 .status(TripPlanStatus.DRAFT)
-                .user(bob)
+                .user(user)
                 .build());
 
         // ── Segment 1: Fly to New York, explore ───────────────────────────

@@ -2,9 +2,11 @@ package com.raf.mrworldwide.domain.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.UUID;
+
 public record ResetPasswordRequest (
         @NotEmpty(message = "Token is required")
-        String token,
+        UUID token,
         @NotEmpty(message = "New password is required")
         String newPassword,
         @NotEmpty(message = "Secret key is required")

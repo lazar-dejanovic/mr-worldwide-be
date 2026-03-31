@@ -53,6 +53,12 @@ public class AuthService {
         return UserMapper.INSTANCE.toDto(user);
     }
 
+    public void resetPassword(String email, String newPassword) {
+        User user = getUserByEmail(email);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
     private String getEmailFromToken(String token) {
         if (token == null) {
             throw new ForbiddenException("Token not provided");
