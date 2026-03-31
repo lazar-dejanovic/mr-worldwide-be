@@ -21,6 +21,7 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@ConditionalOnProperty(name = "app.ai.enabled", havingValue = "true")
 public class AIService {
 
     private final ChatClient chatClient;
@@ -146,4 +148,3 @@ public class AIService {
         return sb.toString();
     }
 }
-

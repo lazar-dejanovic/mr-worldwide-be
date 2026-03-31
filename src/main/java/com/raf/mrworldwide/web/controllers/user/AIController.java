@@ -5,6 +5,7 @@ import com.raf.mrworldwide.domain.dto.ai.AIMessageRequest;
 import com.raf.mrworldwide.domain.dto.ai.AIMessageResponse;
 import com.raf.mrworldwide.services.ai.AIService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/trips/{tripId}/ai")
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "app.ai.enabled", havingValue = "true")
 public class AIController {
 
     private final AIService aiService;
@@ -29,4 +31,3 @@ public class AIController {
         return ResponseEntity.ok(aiService.getHistory(tripId));
     }
 }
-
