@@ -74,8 +74,8 @@ public class WebSecurityConfig {
                 )
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(new RateLimitFilter(objectMapper), AuthenticationFilter.class)
                 .addFilterBefore(new AuthenticationFilter(objectMapper, authService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new RateLimitFilter(objectMapper), AuthenticationFilter.class)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return httpSecurity.build();
